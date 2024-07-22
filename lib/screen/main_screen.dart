@@ -30,14 +30,19 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final List<String> choices = ['가위', '바위', '보'];
   final Map<String, String> images = {
-    '가위': 'assets/images/scissors.png',
-    '바위': 'assets/images/rock.png',
-    '보': 'assets/images/paper.png'
+    '가위': 'image/scissors.png',
+    '바위': 'image/rock.png',
+    '보': 'image/paper.png'
   };
   String? userChoice;
   String? computerChoice;
   String? result;
   int winStreak = 0;
+
+  int wins = 0;
+  int draws = 0;
+  int lose = 0;
+
 
   void playGame(String userChoice) {
     final Random random = Random();
@@ -46,6 +51,8 @@ class _MainScreenState extends State<MainScreen> {
     if (userChoice == computerChoice) {
       result = '비겼습니다!';
       winStreak = 0;
+      draws++;
+
     } else if (
       (userChoice == '가위' && computerChoice == '보') ||
       (userChoice == '바위' && computerChoice == '가위') ||
@@ -53,9 +60,11 @@ class _MainScreenState extends State<MainScreen> {
     ) {
       result = '이겼습니다!';
       winStreak++;
+      wins++;
     } else {
       result = '졌습니다!';
       winStreak = 0;
+      lose++;
     }
 
     setState(() {
@@ -63,6 +72,7 @@ class _MainScreenState extends State<MainScreen> {
       this.computerChoice = computerChoice;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +148,32 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
           ],
+        ),
+      ),
+      bottomSheet: Container(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (userChoice != null && computerChoice != null)
+                const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () { Navigator.pushNamed(context, "/rank"); },
+                    child: const Text('랭킹'),
+                  ),
+                  Text(
+                    '$wins승 $draws무 $lose패',
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
