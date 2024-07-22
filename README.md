@@ -1,16 +1,12 @@
-# bsh_app
+# 가위바위보 게임 
 
-A new Flutter project.
+## 방식
+### 1. 닉네임 입력 페이지 ( 닉네임 생성 페이지로 이동 )
+### 2. 닉네임 생성 페이지 ( 생성 완료시 입력 페이지로 이동 )
 
-## Getting Started
+## 3. 가위바위보 페이지 ( 아래 리스트 : 승 무 패 )
+헤더 ( 
+screen 
+푸터
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 3. 랭킹 페이지 ( 랭킹 보기 ) 
