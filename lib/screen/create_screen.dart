@@ -1,4 +1,8 @@
+import 'package:bsh_app/models/record.dart';
 import 'package:flutter/material.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CreateScreen extends StatefulWidget {
   const CreateScreen({super.key});
@@ -8,34 +12,52 @@ class CreateScreen extends StatefulWidget {
 }
 
 class _CreateScreenState extends State<CreateScreen> {
-  final _nicknameController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nicknameController = TextEditingController();
 
-  @override
-  void dispose() {
-    _nicknameController.dispose();
-    super.dispose();
-  }
+  // 닉네임 등록 요청
+  Future<bool> insert() async {
+    var url = "http://10.0.2.2:8080/user";
+    try {
+      // post( url, headers, body )
+      var response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Content-Type" : "application/json"
+        }, 
+        body: jsonEncode({
+          'nickname': _nicknameController.text,
+        }
+        ),
+      );
 
-  void _createNickname() {
-    String nickname = _nicknameController.text;
-    if (nickname.isNotEmpty) {
-      // 닉네임 생성 로직을 추가하세요. 예를 들어, 서버에 닉네임 저장 요청을 보낼 수 있습니다.
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('닉네임 $nickname 생성되었습니다.')),
+        const SnackBar(
+          content: Text('닉네임 생성 성공!!'),
+          backgroundColor: Colors.blueAccent,
+        ),
       );
-      Navigator.pop(context); // 생성 후 이전 화면으로 이동
-    } else {
+      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, "/first");
+      return true;
+    } catch (e) {
+      print(e);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('닉네임을 입력해주세요.')),
+          const SnackBar(
+            content: Text('닉네임 생성 실패!'),
+            backgroundColor: Colors.redAccent,
+          ),
       );
+      return false;
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create Nickname"),
+        title: const Text("Create Nickname"),
       ),
       body: Center(
         child: Padding(
@@ -45,17 +67,17 @@ class _CreateScreenState extends State<CreateScreen> {
             children: [
               TextField(
                 controller: _nicknameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: '닉네임 입력',
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _createNickname,
-                child: Text("닉네임 생성"),
+                onPressed: insert,
+                child: const Text("닉네임 생성"),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 76, 186, 87),
+                  backgroundColor: const Color.fromARGB(255, 76, 186, 87),
                   foregroundColor: Colors.white,
                 ),
               ),

@@ -1,25 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '가위바위보 게임',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MainScreen(),
-    );
-  }
-}
-
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -34,6 +15,7 @@ class _MainScreenState extends State<MainScreen> {
     '바위': 'image/rock.png',
     '보': 'image/paper.png'
   };
+  String? nickname; // 닉네임
   String? userChoice;
   String? computerChoice;
   String? result;
@@ -43,6 +25,13 @@ class _MainScreenState extends State<MainScreen> {
   int draws = 0;
   int lose = 0;
 
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 라우트 인자에서 nickname 가져오기
+    nickname = ModalRoute.of(context)?.settings.arguments as String?;
+  }
 
   void playGame(String userChoice) {
     final Random random = Random();
@@ -74,8 +63,10 @@ class _MainScreenState extends State<MainScreen> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('가위바위보 게임'),
@@ -94,6 +85,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             const SizedBox(height: 10),
+            Text("닉네임 : ${nickname}", style: TextStyle(color: Colors.green.shade800),),
             const Text(
               '가위바위보를 선택하세요:',
               style: TextStyle(fontSize: 20),

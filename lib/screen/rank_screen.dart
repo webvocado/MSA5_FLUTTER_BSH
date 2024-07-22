@@ -19,10 +19,10 @@ class _RankScreenState extends State<RankScreen> {
           itemCount: 10,
           itemBuilder: (context, index) {
             return GestureDetector(
-              child: Card(
+              child: const Card(
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
+                  padding: EdgeInsets.all(20.0),
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('랭킹 1위'),
